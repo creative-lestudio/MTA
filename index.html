@@ -685,7 +685,8 @@ function topStat(t){var best=t.m[0];t.m.forEach(function(m){if(parseInt(m[1].rep
 
 /* hero cast */
 var hero=$("#hero"),cast=$("#cast");
-cast.innerHTML=shuffle(T).map(function(t,i){return '<img src="a/'+t.img+'.webp" alt="" style="--i:'+i+'">'}).join("");
+var HERO_ORDER=["valeria","michi","camila","zcira","nicole"];
+cast.innerHTML=HERO_ORDER.map(function(k){return T.filter(function(t){return t.img===k})[0]}).map(function(t,i){return '<img src="a/'+t.img+'.webp" alt="" style="--i:'+i+'">'}).join("");
 hero.addEventListener("pointermove",function(e){
   var r=hero.getBoundingClientRect();
   hero.style.setProperty("--mx",(e.clientX-r.left)+"px");hero.style.setProperty("--my",(e.clientY-r.top)+"px");
