@@ -86,12 +86,11 @@ p{margin:0}
 .hero .side{display:grid;gap:1.8rem;justify-items:start;padding-bottom:.6rem}
 .hero .sub{max-width:26rem;color:#c9c9c9;font-size:1.04rem;line-height:1.65}
 .hero .cta{display:flex;gap:.9rem;flex-wrap:wrap}
-.cast{position:relative;z-index:1;flex:1;min-height:clamp(300px,46svh,560px);margin-top:clamp(.5rem,2vw,2rem);display:flex;align-items:flex-end;justify-content:center;padding-inline:var(--gutter)}
-.cast img{position:relative;flex:1 1 0;min-width:0;max-width:340px;width:auto;height:var(--h,100%);margin-inline:-5.5vw;object-fit:contain;object-position:50% 100%;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+.cast{position:relative;z-index:1;flex:1;min-height:clamp(320px,50svh,620px);margin-top:clamp(.5rem,2vw,2rem);display:flex;align-items:flex-end;justify-content:center;padding-inline:3vw}
+.cast img{position:relative;flex:1 1 0;min-width:0;max-width:420px;aspect-ratio:.9;height:auto;margin-inline:-3vw;object-fit:cover;object-position:50% 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
   filter:drop-shadow(0 12px 28px rgba(0,0,0,.55));translate:0 36px;opacity:0;animation:rise 1.4s var(--ease) forwards;animation-delay:calc(var(--i) * .12s + .2s);
   transform:translateX(calc(var(--px,0) * var(--k,1) * 1px))}
-.cast img:nth-child(1){--h:90%;--k:-6}.cast img:nth-child(2){--h:100%;--k:-3}.cast img:nth-child(3){--h:94%;--k:2}.cast img:nth-child(4){--h:100%;--k:4}.cast img:nth-child(5){--h:88%;--k:7}
 @keyframes rise{to{opacity:1;translate:0 0}}
 
 /* confían en nosotros */
@@ -403,7 +402,8 @@ fieldset.f{border:0;margin:0;padding:0;display:grid;gap:.9rem;min-width:0}
   .hero .side{gap:1.4rem}
   .hero .sub{font-size:.98rem}
   .cast{min-height:300px;margin-top:1.4rem}
-  .cast img{margin-inline:-11vw;max-width:62vw}
+  .cast{padding-inline:12vw;min-height:0}
+  .cast img{margin-inline:-12vw;max-width:none}
   .cast img:nth-child(n+4){display:none}
   .tile{width:150px;height:84px;border-radius:16px}
   .mv{grid-template-columns:1fr}
