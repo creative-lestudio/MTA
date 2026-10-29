@@ -88,8 +88,8 @@ p{margin:0}
 .hero .cta{display:flex;gap:.9rem;flex-wrap:wrap}
 .cast{position:relative;z-index:1;flex:1;min-height:clamp(300px,46svh,560px);margin-top:clamp(.5rem,2vw,2rem);display:flex;align-items:flex-end;justify-content:center;padding-inline:var(--gutter)}
 .cast img{position:relative;flex:1 1 0;min-width:0;max-width:340px;width:auto;height:var(--h,100%);margin-inline:-5.5vw;object-fit:contain;object-position:50% 100%;
-  -webkit-mask-image:radial-gradient(ellipse 62% 78% at 50% 72%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 62% 78% at 50% 72%,#000 62%,transparent 100%);
-  filter:drop-shadow(0 0 36px rgba(0,0,0,.85));translate:0 36px;opacity:0;animation:rise 1.4s var(--ease) forwards;animation-delay:calc(var(--i) * .12s + .2s);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+  filter:drop-shadow(0 12px 28px rgba(0,0,0,.55));translate:0 36px;opacity:0;animation:rise 1.4s var(--ease) forwards;animation-delay:calc(var(--i) * .12s + .2s);
   transform:translateX(calc(var(--px,0) * var(--k,1) * 1px))}
 .cast img:nth-child(1){--h:90%;--k:-6}.cast img:nth-child(2){--h:100%;--k:-3}.cast img:nth-child(3){--h:94%;--k:2}.cast img:nth-child(4){--h:100%;--k:4}.cast img:nth-child(5){--h:88%;--k:7}
 @keyframes rise{to{opacity:1;translate:0 0}}
@@ -126,11 +126,11 @@ section{position:relative}
 .car{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
 .car-t{display:flex;width:max-content;gap:1.1rem;animation:mq 64s linear infinite}
 .car:hover .car-t,.car:focus-within .car-t{animation-play-state:paused}
-.pc{position:relative;flex:none;width:clamp(240px,23vw,330px);aspect-ratio:3/4.1;border-radius:calc(var(--radius) * .7);overflow:hidden;background:radial-gradient(90% 60% at 50% 22%,#2c2c2c,#0b0b0b 74%);border:1px solid var(--line);display:block;transition:border-color .5s var(--ease),transform .7s var(--ease)}
+.pc{position:relative;flex:none;width:clamp(240px,23vw,330px);aspect-ratio:3/4.1;border-radius:calc(var(--radius) * .7);overflow:hidden;background:#111;border:1px solid var(--line);display:block;transition:border-color .5s var(--ease),transform .7s var(--ease)}
 .pc:hover{border-color:rgba(255,255,255,.4);transform:translateY(-6px)}
-.pc img{position:absolute;left:0;right:0;bottom:0;width:100%;height:84%;object-fit:contain;object-position:50% 100%;transition:transform 1s var(--ease)}
-.pc:hover img{transform:scale(1.05)}
-.pc::after{content:"";position:absolute;inset:auto 0 0 0;height:56%;background:linear-gradient(transparent,rgba(0,0,0,.9));pointer-events:none}
+.pc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 20%);transition:transform 1.2s var(--ease)}
+.pc:hover img{transform:scale(1.06)}
+.pc::after{content:"";position:absolute;inset:auto 0 0 0;height:50%;background:linear-gradient(transparent,rgba(0,0,0,.55) 38%,rgba(0,0,0,.92));pointer-events:none}
 .pc .in{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:1.3rem 1.4rem 1.4rem;display:grid;gap:.35rem}
 .pc b{font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,1.8vw,1.7rem);letter-spacing:-.035em;line-height:1.1}
 .pc span.t{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#bdbdbd;line-height:1.5}
@@ -162,11 +162,19 @@ section{position:relative}
 .quote{margin-top:clamp(4rem,8vw,8rem);border-top:1px solid var(--line-dark);padding-top:clamp(2.5rem,5vw,4.5rem);font-family:var(--display);font-weight:500;font-size:clamp(1.5rem,3.2vw,3rem);line-height:1.18;letter-spacing:-.04em;max-width:23em;text-wrap:balance}
 
 /* services */
-.svc{border-top:1px solid var(--line)}
-.svc-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:2rem;align-items:baseline;padding:clamp(1.6rem,3vw,2.6rem) 0;border-bottom:1px solid var(--line);transition:padding .6s var(--ease)}
-.svc-row:hover{padding-left:1.2rem}
-.svc-row h3{font-size:clamp(1.5rem,2.7vw,2.6rem)}
-.svc-row p{color:#bdbdbd;max-width:30rem}
+.svc{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1rem}
+.sv{grid-column:span 2;border-radius:clamp(20px,2.4vw,32px);padding:clamp(1.4rem,2.4vw,2.2rem);min-height:clamp(250px,23vw,330px);display:flex;flex-direction:column;justify-content:space-between;gap:2.5rem;transition:transform .7s var(--ease)}
+.sv:nth-child(n+4){grid-column:span 3}
+.sv:hover{transform:translateY(-6px)}
+.sv .ic{width:54px;height:54px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;opacity:.9}
+.sv .ic svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.sv h3{font-size:clamp(1.4rem,2.2vw,2rem);letter-spacing:-.035em;margin-bottom:.8rem}
+.sv p{font-size:.98rem;line-height:1.6;max-width:30rem}
+.sv.k1{background:var(--paper);color:var(--ink)}.sv.k1 p{color:#3a3a3a}
+.sv.k2{background:#1c1c1c}.sv.k2 p{color:#c4c4c4}
+.sv.k3{background:transparent;border:1px solid rgba(255,255,255,.28)}.sv.k3 p{color:#c4c4c4}
+.sv.k4{background:#2c2c2c}.sv.k4 p{color:#cfcfcf}
+.sv.k5{background:#d9d7d2;color:var(--ink)}.sv.k5 p{color:#2e2e2e}
 .brandcopy{margin-top:clamp(3rem,6vw,5rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,7rem);color:#bdbdbd}
 .brandcopy h3{font-size:clamp(1.6rem,3vw,2.8rem);color:var(--paper)}
 
@@ -293,7 +301,8 @@ form{display:grid;gap:2rem}
   .hd .cta-h{display:none}
   .about-top,.ceo,.consult,.faq-grid,.ct,.p-hero,.p-body,.brandcopy{grid-template-columns:minmax(0,1fr)}
   .faq-grid h2{position:static}
-  .svc-row{grid-template-columns:minmax(0,1fr);gap:.8rem}
+  .svc{grid-template-columns:minmax(0,1fr)}
+  .sv,.sv:nth-child(n+4){grid-column:auto;min-height:0}
   .trust-h,.ft-grid{grid-template-columns:minmax(0,1fr)}
   .hero-in{grid-template-columns:minmax(0,1fr)}
   .ceo figure{max-width:420px}
@@ -431,7 +440,7 @@ form{display:grid;gap:2rem}
   <div class="wrap">
     <div class="sec-h">
       <div data-rv><div class="eyebrow">Servicios</div><h2 style="margin-top:1.6rem">Formamos <em>íconos</em> globales</h2></div>
-      <p data-rv>Descubre nuestros servicios de élite.</p>
+      <p data-rv>Cinco servicios de élite para marcas, creadores y artistas.</p>
     </div>
     <div class="svc" id="svc"></div>
     <div class="brandcopy" data-rv>
@@ -549,7 +558,7 @@ var T=[
  m:[["Instagram","146.000","@camilarmasg","Una comunidad fiel que responde a reels visualmente potentes, estética lifestyle premium y conceptos de storytelling episódico."],["TikTok","160.000","@camilarmasg","Una audiencia activa y atenta a las tendencias, enganchada a series adictivas, realidades diarias sin filtro y curaduría de belleza orgánica."],["YouTube","1.960","@camilarmasg","Vlogs largos y cuidados, pensados para una inmersión lifestyle de calidad y una integración profunda de marca."]],
  brands:["b-c2","b-c3","b-c4","b-c5","b-c6"],
  collab:[["Integración episódica nativa","Alineación estratégica de producto tejida dentro de sus series insignia, que convierte a una audiencia activa y retenida en consumidores fieles de la marca."],["Reels y stories aspiracionales","Conceptos de contenido visualmente superiores sobre lifestyle, moda y belleza, adaptados a la estética de campañas premium."],["Tendencias orgánicas","Formatos de video corto, rápidos y entretenidos en TikTok e Instagram, donde el mensaje de marca se integra con naturalidad en momentos culturales cotidianos."]]},
-{slug:"michi-paredes",img:"michi",first:"Michi",last:"Paredes",short:"Lifestyle · Belleza · Bienestar",
+{slug:"michi-paredes",img:"michi",pos:"50% 15%",first:"Michi",last:"Paredes",short:"Lifestyle · Belleza · Bienestar",
  tag:"Storytelling estético, belleza y bienestar orgánico que construye confianza real en la comunidad.",
  bio:["Michi Paredes es creadora de contenido enfocada en lifestyle, belleza y bienestar. Comparte su día a día con honestidad y muestra rutinas, experiencias y momentos que conectan de forma natural con su audiencia.","Con una mezcla de autenticidad, estética y cercanía, Michi ofrece a las marcas una forma real y efectiva de conectar con una comunidad comprometida."],
  niches:["Lifestyle estético","Belleza profesional","Bienestar diario y vlogging","Curaduría de viajes"],
@@ -563,14 +572,14 @@ var T=[
  m:[["Instagram","6.100.000","@nicolegarcia","Una audiencia masiva construida sobre confianza absoluta, conexión diaria con su lifestyle y tendencias de belleza y moda de alto impacto."],["TikTok","14.800.000","@nicolegarcia","Una comunidad masiva y ultra comprometida que interactúa a diario con vlogs espontáneos, conceptos virales y entretenimiento sin filtro."],["YouTube","1.040.000","@nicolegarcia","Storytelling inmersivo y vlogging diario que inspira a millones y ofrece el puente ideal para alianzas profundas y orgánicas con marcas."]],
  brands:["b-n1","b-n2","b-n3","b-n4","b-n5"],
  collab:[["Integración orgánica y entretenida","Mensajes de marcas globales integrados en el flujo diario de su contenido a través de tendencias nativas, para una conexión orgánica y sin filtros con millones de espectadores."],["Reels y stories aspiracionales","Formatos cortos visualmente potentes, hechos a medida de los sectores lifestyle y belleza, que generan engagement masivo inmediato."],["YouTube y long-form","Apariciones dedicadas y vlogs diarios inmersivos que permiten un storytelling de marca más profundo y un nivel inigualable de conversión basada en confianza."]]},
-{slug:"valeria-carruyo",img:"valeria",first:"Valeria",last:"Carruyo",short:"Moda de alta gama · Belleza · Lifestyle",
+{slug:"valeria-carruyo",img:"valeria",pos:"68% 20%",first:"Valeria",last:"Carruyo",short:"Moda de alta gama · Belleza · Lifestyle",
  tag:"Curaduría de alta gama y alcance multiplataforma que redefinen la influencia digital moderna.",
  bio:["Valeria Carruyo es una creadora de contenido y modelo venezolana nacida en Maracaibo en 2003. Lanzó su carrera en 2020, durante la pandemia, y acumuló millones de seguidores con sus videos de baile y lip-sync.","Con un estilo auténtico y versátil, ha colaborado con marcas internacionales y aparecido en videoclips, y se ha convertido en una de las figuras digitales más influyentes de Venezuela, con más de 12 millones de seguidores en sus plataformas."],
  niches:["Moda de alta gama","Curaduría de belleza","Lifestyle","Conceptos de tendencia dinámicos"],
  m:[["Instagram","1.600.000","@valeriascarruyo","Contenido visualmente potente, ideal para integrar marcas a través de reels, imágenes o stories aspiracionales y estéticos."],["TikTok","9.300.000","@valeriacarruyo","Contenido entretenido y orgánico donde las marcas se integran con naturalidad en tendencias o momentos del día a día."]],
  brands:["b-v1","b-v2","b-v3","b-v4","b-v5"],
  collab:[["Contenido patrocinado","Lookbooks de moda con curaduría estética, rutinas de belleza e integración en video corto pensados para la máxima velocidad en el algoritmo."],["Apariciones en videoclips","Su formación en baile y su magnética presencia en pantalla, para promociones de alto impacto de temas y campañas de sellos."],["Embajadora global","Su formación en baile y su magnética presencia en pantalla, al servicio de iniciativas de embajadora de marca."]]},
-{slug:"zcira",img:"zcira",first:"Zcira",last:"",short:"Pop alternativo · R&B · Moda masculina",
+{slug:"zcira",img:"zcira",pos:"62% 20%",first:"Zcira",last:"",short:"Pop alternativo · R&B · Moda masculina",
  tag:"Une el pop alternativo y el R&B con masculinidad de alta moda e intención artística.",
  bio:["ZCIRA, nacido como Juan Pablo Ciravegna, es un artista y modelo argentino de 24 años de Buenos Aires. Combina pop alternativo y R&B para crear un sonido auténtico y emocional.","Con una presencia magnética y colaboraciones con marcas como Azzaro y Kappa, destaca como una de las estrellas emergentes de la moda argentina. Se ha presentado en escenarios locales y trabaja en su primer proyecto original para consolidar su identidad artística y dar el salto a la escena internacional."],
  niches:["Pop alternativo y R&B","Moda masculina de alta gama","Modelaje profesional","Expresión artística"],
@@ -606,15 +615,16 @@ $("#lanes").innerHTML=lane(sh.slice(0,cut),false)+lane(sh.slice(cut),true);
 
 /* roster carousel (continuous, random order) */
 var cart=$("#cart");
-function card(t,dup){return '<a class="pc" href="#talento-'+t.slug+'"'+(dup?' aria-hidden="true" tabindex="-1"':'')+'><span class="go" aria-hidden="true">↗</span><img src="a/'+t.img+'.webp" alt="'+(dup?"":esc(full(t)))+'" loading="lazy"><span class="in"><b>'+esc(full(t))+'</b><span class="t">'+esc(t.short)+'</span></span></a>'}
+function card(t,dup){return '<a class="pc" href="#talento-'+t.slug+'"'+(dup?' aria-hidden="true" tabindex="-1"':'')+'><span class="go" aria-hidden="true">↗</span><img src="a/card-'+t.img+'.webp" alt="'+(dup?"":esc(full(t)))+'" loading="lazy" style="--pos:'+(t.pos||"50% 20%")+'"><span class="in"><b>'+esc(full(t))+'</b><span class="t">'+esc(t.short)+'</span></span></a>'}
 var order=shuffle(T),cs="";
 for(var k=0;k<2;k++)order.forEach(function(t){cs+=card(t,false)});
 var half=cs;
 cart.innerHTML=half+half.replace(/<a class="pc"/g,'<a aria-hidden="true" tabindex="-1" class="pc"');
 
 /* services */
-var S=[["Influencer marketing","Diseñamos y ejecutamos campañas estratégicas lideradas por creadores que elevan las marcas y generan resultados medibles."],["Representación de creadores","Representación de largo plazo, negociación de campañas, estrategia de marca personal y soporte operativo para el talento firmado."],["Campañas de música","Casting estratégico de creadores, planificación de lanzamientos y dirección de contenido para proyectos musicales que buscan tracción cultural."],["Consultoría","Acompañamiento premium para creadores, marcas y artistas que necesitan un posicionamiento más nítido, infraestructura de crecimiento y claridad en sus campañas."],["Búsqueda y desarrollo de talento","Identificación y desarrollo de creadores emergentes con la identidad, los estándares y el encaje con su comunidad necesarios para escalar."]];
-$("#svc").innerHTML=S.map(function(s,i){return '<div class="svc-row" data-rv><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>'}).join("");
+var IC={"mega": "<path d=\"M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7\"/><path d=\"M18 6a8.5 8.5 0 0 1 0 12\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"3.5\"/><path d=\"M5 20a7 7 0 0 1 14 0\"/>", "note": "<path d=\"M9 18V6l10-2v12\"/><circle cx=\"6.5\" cy=\"18\" r=\"2.5\"/><circle cx=\"16.5\" cy=\"16\" r=\"2.5\"/>", "spark": "<path d=\"M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z\"/><path d=\"M19 17v4M17 19h4\"/>", "search": "<circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"M20 20l-4.2-4.2\"/>"};
+var S=[["Influencer marketing","Diseñamos y ejecutamos campañas estratégicas lideradas por creadores que elevan las marcas y generan resultados medibles.","mega"],["Representación de creadores","Representación de largo plazo, negociación de campañas, estrategia de marca personal y soporte operativo para el talento firmado.","user"],["Campañas de música","Casting estratégico de creadores, planificación de lanzamientos y dirección de contenido para proyectos musicales que buscan tracción cultural.","note"],["Consultoría","Acompañamiento premium para creadores, marcas y artistas que necesitan un posicionamiento más nítido, infraestructura de crecimiento y claridad en sus campañas.","spark"],["Búsqueda y desarrollo de talento","Identificación y desarrollo de creadores emergentes con la identidad, los estándares y el encaje con su comunidad necesarios para escalar.","search"]];
+$("#svc").innerHTML=S.map(function(x,i){return '<article class="sv k'+(i+1)+'" data-rv><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">'+IC[x[2]]+'</svg></span><div><h3>'+x[0]+'</h3><p>'+x[1]+'</p></div></article>'}).join("");
 
 /* talent panel */
 var panel=$("#panel"),openIdx=-1,lastFocus=null;
