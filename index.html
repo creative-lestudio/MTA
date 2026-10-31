@@ -128,9 +128,9 @@ section{position:relative}
 .sec-h .eyebrow{margin-bottom:1.6rem}
 
 /* roster carousel */
-.car{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding-block:8px;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
-.car-t{display:flex;width:max-content;gap:1.1rem}
-.pc{position:relative;flex:none;width:clamp(240px,23vw,330px);aspect-ratio:3/4.1;border-radius:calc(var(--radius) * .7);overflow:hidden;background:#111;border:1px solid var(--line);display:block;transition:border-color .5s var(--ease),transform .7s var(--ease)}
+.car{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:8px var(--gutter);scroll-snap-type:x proximity;scroll-padding-inline:var(--gutter)}
+.car-t{display:flex;gap:1rem;min-width:100%}
+.pc{position:relative;flex:1 0 clamp(230px,17vw,300px);scroll-snap-align:start;aspect-ratio:3/4.1;border-radius:calc(var(--radius) * .7);overflow:hidden;background:#111;border:1px solid var(--line);display:block;transition:border-color .5s var(--ease),transform .7s var(--ease)}
 .pc:hover{border-color:rgba(255,255,255,.4);transform:translateY(-6px)}
 .pc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 20%);transition:transform 1.2s var(--ease)}
 .pc:hover img{transform:scale(1.06)}
@@ -142,6 +142,7 @@ section{position:relative}
 .pc:hover .go{background:var(--paper);color:var(--ink);transform:rotate(45deg)}
 .ctlrow{margin-top:1.4rem;display:flex;justify-content:space-between;align-items:center;gap:1.2rem;flex-wrap:wrap}
 .ctl{display:flex;gap:.6rem;align-items:center}
+.ctl[hidden]{display:none}
 .ctl button{width:50px;height:50px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.04);display:grid;place-items:center;transition:background .35s var(--ease),color .35s var(--ease),border-color .35s}
 .ctl button:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .ctl svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -421,7 +422,7 @@ fieldset.f{border:0;margin:0;padding:0;display:grid;gap:.9rem;min-width:0}
   .cast{padding-inline:0;min-height:0;margin-top:1.8rem}
   .cast img{flex:none;width:52vw;max-width:none;margin-inline:-6.5vw;aspect-ratio:.8}
   .cast img:nth-child(n+4){display:none}
-  .pc{width:min(74vw,300px)}
+  .pc{flex:0 0 min(74vw,300px)}
   .car-t{gap:.8rem}
   .ft-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:2.2rem 1.2rem}
   .ft .brand,.ft-grid>div:last-child{grid-column:1/-1}
@@ -522,7 +523,7 @@ img{max-width:100%}
   </div>
   <div class="car" id="car"><div class="car-t" id="cart"></div></div>
   <div class="wrap">
-    <div class="ctlrow"><p class="hint">Usa las flechas para buscar · Toca un perfil para ver su ficha</p><div class="ctl" id="ctl-car"></div></div>
+    <div class="ctlrow"><p class="hint">Toca un perfil para ver su ficha completa</p><div class="ctl" id="ctl-car"></div></div>
     <div class="roster-foot" data-rv>
       <p>Industrias de belleza, estilo de vida, moda y música.</p>
       <a class="btn solid" href="#contacto">Agenda una sesión estratégica <span class="ar">↗</span></a>
@@ -738,16 +739,20 @@ function lane(list){
 var sh=shuffle(BR),cut=Math.ceil(sh.length/2);
 $("#lanes").innerHTML=lane(sh.slice(0,cut))+lane(sh.slice(cut));
 
-/* roster carousel (random order, three identical copies so it can loop both ways) */
+var ARR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+/* roster: one card per creator, random order; arrows only appear when the row overflows */
 var cart=$("#cart");
-function card(t,dup){return '<a class="pc" href="#talento-'+t.slug+'"'+(dup?' aria-hidden="true" tabindex="-1"':'')+'><span class="go" aria-hidden="true">↗</span><img src="a/card-'+t.img+'.webp" alt="'+(dup?"":esc(full(t)))+'" loading="lazy" style="--pos:'+(t.pos||"50% 20%")+'"><span class="in"><b>'+esc(full(t))+'</b><span class="t">'+esc(t.short)+'</span></span></a>'}
-var order=shuffle(T).concat(shuffle(T)),unit="",dupunit="";
-order.forEach(function(t){unit+=card(t,false);dupunit+=card(t,true)});
-cart.setAttribute("data-n",order.length);
-cart.innerHTML=unit+dupunit+dupunit;
+function card(t){return '<a class="pc" href="#talento-'+t.slug+'"><span class="go" aria-hidden="true">↗</span><img src="a/card-'+t.img+'.webp" alt="'+esc(full(t))+'" loading="lazy" style="--pos:'+(t.pos||"50% 20%")+'"><span class="in"><b>'+esc(full(t))+'</b><span class="t">'+esc(t.short)+'</span></span></a>'}
+cart.innerHTML=shuffle(T).map(card).join("");
+(function(){
+  var car=$("#car"),ctl=$("#ctl-car"),row=ctl.parentNode;
+  ctl.innerHTML='<button type="button" data-a="prev" aria-label="Ver talentos anteriores"><span style="display:grid;transform:scaleX(-1)">'+ARR+'</span></button><button type="button" data-a="next" aria-label="Ver más talentos">'+ARR+'</button>';
+  ctl.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;car.scrollBy({left:(b.dataset.a==="next"?1:-1)*Math.max(car.clientWidth*.7,240),behavior:"smooth"})});
+  function sync(){var over=car.scrollWidth>car.clientWidth+4;ctl.hidden=!over}
+  sync();window.addEventListener("resize",sync);window.addEventListener("load",sync);
+})();
 
 /* shared carousel engine: slow autoplay, arrows pause it and move the cards */
-var ARR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 var PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z"/></svg>',PAUSE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 function carousel(scrollers,dirs,speed,ctlEl){
   var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -783,7 +788,6 @@ function carousel(scrollers,dirs,speed,ctlEl){
   requestAnimationFrame(tick);
 }
 carousel($$(".lane"),[1,-1],30,$("#ctl-lanes"));
-carousel([$("#car")],[1],42,$("#ctl-car"));
 
 /* services */
 var IC={"mega": "<path d=\"M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7\"/><path d=\"M18 6a8.5 8.5 0 0 1 0 12\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"3.5\"/><path d=\"M5 20a7 7 0 0 1 14 0\"/>", "note": "<path d=\"M9 18V6l10-2v12\"/><circle cx=\"6.5\" cy=\"18\" r=\"2.5\"/><circle cx=\"16.5\" cy=\"16\" r=\"2.5\"/>", "spark": "<path d=\"M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z\"/><path d=\"M19 17v4M17 19h4\"/>", "search": "<circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"M20 20l-4.2-4.2\"/>"};
